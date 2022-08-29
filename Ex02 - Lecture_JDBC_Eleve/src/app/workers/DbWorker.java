@@ -91,7 +91,7 @@ public class DbWorker implements DbWorkerItf {
 
     @Override
     public Personne precedentPersonne() throws MyDBException {
-        listePersonnes = new ArrayList<>();
+        
 
         if (listePersonnes == null) {
             lirePersonnes();
@@ -106,7 +106,6 @@ public class DbWorker implements DbWorkerItf {
 
     @Override
     public Personne suivantPersonne() throws MyDBException {
-        listePersonnes = new ArrayList<>();
 
         if (listePersonnes == null) {
             lirePersonnes();

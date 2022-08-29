@@ -26,10 +26,10 @@ public class MainCtrl implements Initializable {
     };
 
     // DB par défaut
-    final static private TypesDB DB_TYPE = TypesDB.MYSQL;
-
+    final static private TypesDB DB_TYPE = TypesDB.ACCESS;
+    
     private DbWorkerItf dbWrk;
-
+    
     @FXML
     private TextField txtNom;
     @FXML
@@ -43,28 +43,28 @@ public class MainCtrl implements Initializable {
         dbWrk = new DbWorker();
         ouvrirDB();
     }
-
+    
     @FXML
     public void actionPrevious(ActionEvent event) {
         try {
             afficherPersonne(dbWrk.precedentPersonne());
         } catch (Exception ex) {
-
+            
         }
-
+        
     }
-
+    
     @FXML
     public void actionNext(ActionEvent event) {
         try {
             afficherPersonne(dbWrk.suivantPersonne());
         } catch (Exception ex) {
-
+            
         }
     }
-
+    
     public void quitter() {
-
+        
         Platform.exit();
     }
 
@@ -72,9 +72,14 @@ public class MainCtrl implements Initializable {
    * METHODES PRIVEES 
      */
     private void afficherPersonne(Personne p) {
-
+        
+        if (p != null) {
+            txtNom.setText(p.getNom());
+            txtPrenom.setText(p.getPrenom());
+        }
+        
     }
-
+    
     private void ouvrirDB() {
         try {
             switch (DB_TYPE) {
@@ -85,19 +90,19 @@ public class MainCtrl implements Initializable {
                     dbWrk.connecterBdHSQLDB("../data" + File.separator + "223_personne_1table");
                     break;
                 case ACCESS:
-                    dbWrk.connecterBdAccess("../data" + File.separator + "223_Personne_1table.accdb");
+                    dbWrk.connecterBdAccess("../data/access" + File.separator + "223_Personne_1table.accdb");
                     break;
                 default:
                     System.out.println("Base de données pas définie");
             }
-
+            
             System.out.println("------- DB OK ----------");
             afficherPersonne(dbWrk.precedentPersonne());
-
+            
         } catch (MyDBException ex) {
             JfxPopup.displayError("ERREUR", "Une erreur s'est produite", ex.getMessage());
             System.exit(1);
         }
     }
-
+    
 }
