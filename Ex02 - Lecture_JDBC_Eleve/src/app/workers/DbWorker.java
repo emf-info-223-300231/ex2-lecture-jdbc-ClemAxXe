@@ -75,23 +75,22 @@ public class DbWorker implements DbWorkerItf {
         try {
             Statement st = dbConnexion.createStatement();
             ResultSet rs = st.executeQuery("select PK_PERS, Nom, Prenom from t_personne");
-            
-            while(rs.next()){
+
+            while (rs.next()) {
                 String nom = rs.getString("Nom");
-                String prenom = rs.getString("Prenom");    
+                String prenom = rs.getString("Prenom");
                 Personne pers = new Personne(nom, prenom);
                 listePersonnes.add(pers);
             }
-            
-        } catch (SQLException ex) {
 
+        } catch (SQLException ex) {
+            throw new MyDBException(SystemLib.getFullMethodName(), ex.getMessage());
         }
         return listePersonnes;
     }
 
     @Override
     public Personne precedentPersonne() throws MyDBException {
-        
 
         if (listePersonnes == null) {
             lirePersonnes();
@@ -99,7 +98,7 @@ public class DbWorker implements DbWorkerItf {
         if (index >= 1) {
             index = index - 1;
         }
-        
+
         return listePersonnes.get(index);
 
     }
@@ -113,7 +112,7 @@ public class DbWorker implements DbWorkerItf {
         if (index < listePersonnes.size()) {
             index = index + 1;
         }
-        
+
         return listePersonnes.get(index);
 
     }
